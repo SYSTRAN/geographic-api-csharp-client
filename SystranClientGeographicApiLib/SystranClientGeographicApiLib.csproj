@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Api\InspirationsApi.cs" />
     <Compile Include="Api\PoiApi.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Client\ApiClient.cs" />
     <Compile Include="Client\ApiException.cs" />
     <Compile Include="Client\Configuration.cs" />
@@ -85,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
