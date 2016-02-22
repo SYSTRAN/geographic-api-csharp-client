@@ -16,22 +16,26 @@ namespace Systran.GeographicClientLib.Api.Tests
     {
 
         private static ApiClient client;
-        private static PoiApi poiApi;
+        private static POIApi poiApi;
 
         [ClassInitialize()]
         public static void ClassInit(TestContext context)
         {
             client = new ApiClient("https://platform.systran.net:8904");
             Configuration.apiClient = client;
+            if (!File.Exists("../../apiKey.txt"))
+                throw new Exception("To properly run the tests, please add an apiKey.txt file containing your api key in the SystranClientRessourcesApiLibTests folder or edit the test file with your key");
             Dictionary<String, String> keys = new Dictionary<String, String>();
             string key;
             using (StreamReader streamReader = new StreamReader("../../apiKey.txt", Encoding.UTF8))
             {
                 key = streamReader.ReadToEnd();
             }
-            keys.Add("key", key); Configuration.apiKey = keys; Configuration.apiKey = keys;
+            keys.Add("key", key);
+            if (keys.Count == 0)
+                throw new Exception("No api key found, please check your apiKey.txt file");
             Configuration.apiKey = keys;
-            poiApi = new PoiApi(Configuration.apiClient);
+            poiApi = new POIApi(Configuration.apiClient);
         }
 
         [TestMethod()]
@@ -41,19 +45,19 @@ namespace Systran.GeographicClientLib.Api.Tests
         }
 
         [TestMethod()]
-        public void GeographicPoiGetTest()
+        public void GeographicPoiGetListTest()
         {
-            PoiResponse poiResponse =  poiApi.GeographicPoiGet(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);   
+            PoiResponse poiResponse =  poiApi.GeographicPoiListGet(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null) ;   
             Assert.IsNotNull(poiResponse.PointsOfInterest);
         }
 
         [TestMethod()]
-        public void GeographicPoiGetAsyncTest()
+        public void GeographicPoiGetListAsyncTest()
         {
             PoiResponse poiResponse = new PoiResponse();
             Task.Run(async () =>
             {
-                poiResponse =  await poiApi.GeographicPoiGetAsync(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+                poiResponse =  await poiApi.GeographicPoiListGetAsync(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
             }).Wait();
             Assert.IsNotNull(poiResponse.PointsOfInterest);
         }
@@ -61,57 +65,24 @@ namespace Systran.GeographicClientLib.Api.Tests
         [TestMethod()]
         public void GeographicPoiDetailsGetTest()
         {
-           PoiDetailsResponse poilDetailsResponse = poiApi.GeographicPoiDetailsGet("556dd2b5d61c8170d8cd3ea8", null, null);
-            Assert.IsNotNull(poilDetailsResponse.PoiDetails);
+            PoiResponse poiResponse = poiApi.GeographicPoiListGet(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+            PoiDetailsResponse poilDetailsResponse = poiApi.GeographicPoiGetGet(poiResponse.PointsOfInterest[0].Id,
+               null, null);
+            Assert.IsNotNull(poilDetailsResponse);
         }
 
         [TestMethod()]
         public void GeographicPoiDetailsGetAsyncTest()
         {
+            PoiResponse poiResponse = poiApi.GeographicPoiListGet(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
             PoiDetailsResponse poilDetailsResponse = new PoiDetailsResponse() ;
             Task.Run(async () =>
             {
-                poilDetailsResponse = await poiApi.GeographicPoiDetailsGetAsync("556dd2b5d61c8170d8cd3ea8", null, null);
+                poilDetailsResponse = await poiApi.GeographicPoiGetGetAsync(poiResponse.PointsOfInterest[0].Id, null, null);
             }).Wait();
-            Assert.IsNotNull(poilDetailsResponse.PoiDetails);
+            Assert.IsNotNull(poilDetailsResponse);
         }
-
-        [TestMethod()]
-        public void GeographicPoiEventsGetTest()
-        {
-           EventsResponse eventsResponse =  poiApi.GeographicPoiEventsGet(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-           Assert.IsNotNull(eventsResponse.Events);
-        }
-
-        [TestMethod()]
-        public void GeographicPoiEventsGetAsyncTest()
-        {
-            EventsResponse eventsResponse = new EventsResponse();
-            Task.Run(async () =>
-            {
-                eventsResponse = await poiApi.GeographicPoiEventsGetAsync(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-            }).Wait();
-            Assert.IsNotNull(eventsResponse.Events);
-        }
-
-        [TestMethod()]
-        public void GeographicPoiSupportedLanguagesGetTest()
-        {
-           SupportedLanguagesResponse supportedLanguagesResponse = poiApi.GeographicPoiSupportedLanguagesGet(null);
-            Assert.IsNotNull(supportedLanguagesResponse.Languages);
-        }
-
-        [TestMethod()]
-        public void GeographicPoiSupportedLanguagesGetAsyncTest()
-        {
-            SupportedLanguagesResponse supportedLanguagesResponse = new SupportedLanguagesResponse();
-            Task.Run(async () =>
-            {
-               supportedLanguagesResponse = await poiApi.GeographicPoiSupportedLanguagesGetAsync(null);
-            }).Wait();
-            Assert.IsNotNull(supportedLanguagesResponse.Languages);
-        }
-
+     
         [TestMethod()]
         public void GeographicPoiTypesGetTest()
         {

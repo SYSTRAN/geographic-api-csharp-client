@@ -49,21 +49,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\APIVersionApi.cs" />
+    <Compile Include="Api\DestinationsApi.cs" />
     <Compile Include="Api\InspirationsApi.cs" />
     <Compile Include="Api\PoiApi.cs" />
+    <Compile Include="Api\SupportedLanguagesApi.cs" />
     <Compile Include="Client\ApiClient.cs" />
     <Compile Include="Client\ApiException.cs" />
     <Compile Include="Client\Configuration.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\AddressComponents.cs" />
+    <Compile Include="Model\ApiVersionResponse.cs" />
     <Compile Include="Model\Booking.cs" />
+    <Compile Include="Model\Chapter.cs" />
     <Compile Include="Model\Contact.cs" />
     <Compile Include="Model\Description.cs" />
+    <Compile Include="Model\Destination.cs" />
+    <Compile Include="Model\DestinationDetailsResponse.cs" />
+    <Compile Include="Model\DestinationResponse.cs" />
+    <Compile Include="Model\ErrorResponse.cs" />
     <Compile Include="Model\EventsResponse.cs" />
+    <Compile Include="Model\FullDestination.cs" />
+    <Compile Include="Model\FullInspiration.cs" />
     <Compile Include="Model\FullLocation.cs" />
     <Compile Include="Model\FullPOI.cs" />
     <Compile Include="Model\FullPosition.cs" />
     <Compile Include="Model\Inspiration.cs" />
+    <Compile Include="Model\InspirationDetailsResponse.cs" />
     <Compile Include="Model\InspirationResponse.cs" />
     <Compile Include="Model\LiteEvent.cs" />
     <Compile Include="Model\LiteLocation.cs" />

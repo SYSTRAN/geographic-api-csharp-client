@@ -51,8 +51,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Api\APIVersionApiTests.cs" />
+    <Compile Include="Api\DestinationsApiTests.cs" />
     <Compile Include="Api\InspirationsApiTests.cs" />
     <Compile Include="Api\PoiApiTests.cs" />
+    <Compile Include="Api\SupportedLanguagesApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
